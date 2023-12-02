@@ -1,0 +1,66 @@
+#include<16F887.h>
+#fuses INTRC_IO
+#use delay(CLOCK=8MHz)
+
+#define bt1         A0 // Positive low
+#define bt2         A1 // Positive low
+#define bt3         A2 // Positive low
+#define bt4         A3 // Positive low
+#define bt_open     A4 //opening skylight
+#define bt_close    A5 //closing skylight
+#define relay1      2 //device 1
+#define relay2      3 //device 2
+#define relay3      4 //device 3
+#define relay4      5 //device 4
+#define m_in1       6 //l298n
+#define m_in2       7 //l298n
+#define rainmodule  8 //Positive low
+#define ht1         9 //LOW if the skylight is fully open
+#define ht2         10 //LOW if the skylight is fully close
+void control_button(){
+   if (input(bt1)==0) 
+   {
+      delay_ms(50);
+      output_toggle(relay1);
+      while(input(bt1)==0);
+      delay_ms(50);
+   }
+   if (input(bt2)==0) 
+   {
+      delay_ms(50);
+      output_toggle(relay2);
+      while(input(bt2)==0);
+      delay_ms(50);
+   }
+   if (input(bt3)==0) 
+   {
+      delay_ms(50);
+      output_toggle(relay3);
+      while(input(bt3)==0);
+      delay_ms(50);
+   }
+   if (input(bt4)==0) 
+   {
+      delay_ms(50);
+      output_toggle(relay4);
+      while(input(bt4)==0);
+      delay_ms(50);
+   }
+}
+void main()
+{
+   set_tris_b(0b00111111);
+   set_tris_d(0b00001111);
+   output_low(relay1);
+   output_low(relay2);
+   output_low(relay3);
+   output_low(relay4);
+   while(TRUE)
+   {
+      control_button();
+   }
+}
+
+
+
+

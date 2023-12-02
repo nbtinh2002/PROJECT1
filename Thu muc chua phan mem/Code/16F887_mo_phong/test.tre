@@ -1,0 +1,8 @@
+ÀÄtest
+   ÀÄmain  0/96  Ram=2
+      ÃÄ@cinit1  (Inline)  Ram=0
+      ÃÄ@cinit2  (Inline)  Ram=0
+      ÃÄ@delay_ms1  0/20  Ram=1
+      ÃÄ@PSTRINGC7_9600_62_63  0/88  Ram=4
+      ÃÄ@PSTRINGC7_9600_62_63  0/88  Ram=4
+      ÀÄ@delay_ms1  0/20  Ram=1

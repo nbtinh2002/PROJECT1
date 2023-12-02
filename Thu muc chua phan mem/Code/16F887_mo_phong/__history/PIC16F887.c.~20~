@@ -1,0 +1,103 @@
+#include<16F887.h>
+#fuses INTRC_IO
+#use delay(CLOCK=8MHz)
+
+#define bt1       PIN_B0 // Positive low
+#define bt2       PIN_B1// Positive low
+#define bt3       PIN_B2 // Positive low
+#define bt4       PIN_B3 // Positive low
+#define bt_open   PIN_B4 //opening skylight
+#define bt_close  PIN_B5 //closing skylight
+#define relay1    PIN_D0 //device 1
+#define relay2    PIN_D1 //device 2
+#define relay3    PIN_D2 //device 3
+#define relay4    PIN_D3 //device 4
+#define m_in1     PIN_E1 //l298n
+#define m_in2     PIN_E2 //l298n
+#define rainmodule PIN_E0 //Positive low
+#define ht1       PIN_D5 //LOW if the skylight is fully open
+#define ht2       PIN_D6 //LOW if the skylight is fully close
+void control_button(){
+   if (input(bt1)==0) 
+   {
+      delay_ms(50);
+      output_toggle(relay1);
+      while(input(bt1)==0);
+      delay_ms(50);
+   }
+   if (input(bt2)==0) 
+   {
+      delay_ms(50);
+      output_toggle(relay2);
+      while(input(bt2)==0);
+      delay_ms(50);
+   }
+   if (input(bt3)==0) 
+   {
+      delay_ms(50);
+      output_toggle(relay3);
+      while(input(bt3)==0);
+      delay_ms(50);
+   }
+   if (input(bt4)==0) 
+   {
+      delay_ms(50);
+      output_toggle(relay4);
+      while(input(bt4)==0);
+      delay_ms(50);
+   }
+}
+void control_skylight(){
+   bool Raining = (digitalRead(rainmodule) == LOW);
+  bool ht1_stas = (digitalRead(ht1) == LOW);
+  bool ht2_stas = (digitalRead(ht2) == LOW);
+  bool bt_open_pressed = (digitalRead(bt_open) == LOW);
+  bool bt_close_pressed = (digitalRead(bt_close) == LOW);
+
+  unsigned long currentMillis = millis();
+  if (currentMillis - previousMillis >= interval) {
+    previousMillis = currentMillis;
+    if (Raining && !ht2_stas) {
+      if (!Rainstas) {
+        send_SMS("It's raining!");
+        Rainstas = true;
+      }
+    }
+    else { Rainstas = false; }
+  }
+  if (Raining && !ht2_stas) {
+      analogWrite(m_in1, 70);
+      digitalWrite(m_in2, LOW);
+    } else if (!Raining && !ht2_stas && bt_close_pressed) {
+      analogWrite(m_in1, 70);
+      digitalWrite(m_in2, LOW);
+    } else if (!Raining && !ht1_stas && bt_open_pressed) {
+      analogWrite(m_in1, 180);
+      digitalWrite(m_in2, HIGH);
+    } else {
+      analogWrite(m_in1, 0);
+      digitalWrite(m_in2, LOW);
+    }
+}
+
+void main()
+{
+   set_tris_b(0b00111111);
+   set_tris_d(0b00001111);
+   set_tris_e(0b001);
+   output_low(relay1);
+   output_low(relay2);
+   output_low(relay3);
+   output_low(relay4);
+   output_high(m_in1);
+   output_low(m_in2);
+   while(TRUE)
+   {
+      control_button();
+      control_skylight();
+   }
+}
+
+
+
+

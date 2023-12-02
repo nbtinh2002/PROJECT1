@@ -1,0 +1,403 @@
+CCS PCM C Compiler, Version 5.101, 43599               24-May-23 12:53
+
+               Filename:   F:\Ki_6\PROJECT_1\Tinh_20161383_20161VMVT1_W13\Thu muc chua phan mem\16F887\PIC16F887.lst
+
+               ROM used:   279 words (3%)
+                           Largest free fragment is 2048
+               RAM used:   7 (2%) at main() level
+                           10 (3%) worst case
+               Stack used: 1 locations
+               Stack size: 8
+
+*
+0000:  MOVLW  00
+0001:  MOVWF  0A
+0002:  GOTO   0C9
+0003:  NOP
+.................... #include <16F887.h>
+.................... //////////// Standard Header file for the PIC16F887 device ////////////////
+.................... ///////////////////////////////////////////////////////////////////////////
+.................... ////        (C) Copyright 1996, 2020 Custom Computer Services          ////
+.................... //// This source code may only be used by licensed users of the CCS C  ////
+.................... //// compiler.  This source code may only be distributed to other      ////
+.................... //// licensed users of the CCS C compiler.  No other use, reproduction ////
+.................... //// or distribution is permitted without written permission.          ////
+.................... //// Derivative programs created using this software in object code    ////
+.................... //// form are not restricted in any way.                               ////
+.................... ///////////////////////////////////////////////////////////////////////////
+.................... #device PIC16F887
+.................... 
+.................... #list
+.................... 
+.................... #device ADC=10
+.................... #fuses INTRC_IO
+.................... #use delay(CLOCK=8MHz)
+0004:  MOVLW  22
+0005:  MOVWF  04
+0006:  BCF    03.7
+0007:  MOVF   00,W
+0008:  BTFSC  03.2
+0009:  GOTO   017
+000A:  MOVLW  02
+000B:  MOVWF  78
+000C:  CLRF   77
+000D:  DECFSZ 77,F
+000E:  GOTO   00D
+000F:  DECFSZ 78,F
+0010:  GOTO   00C
+0011:  MOVLW  97
+0012:  MOVWF  77
+0013:  DECFSZ 77,F
+0014:  GOTO   013
+0015:  DECFSZ 00,F
+0016:  GOTO   00A
+0017:  RETURN
+.................... #use RS232(BAUD=9600,BITS=8,STOP=1,PARITY=N,xmit=PIN_C6,rcv=PIN_C7)
+.................... #define btn0       PIN_B0 // Positive low
+.................... #define btn1       PIN_B1// Positive low
+.................... #define btn2       PIN_B2 // Positive low
+.................... #define btn3       PIN_B3 // Positive low
+.................... #define btn4       PIN_B4 //opening skylight
+.................... #define btn5       PIN_B5 //closing skylight
+.................... #define relay1     PIN_D0 //device 1
+.................... #define relay2     PIN_D1 //device 2
+.................... #define relay3     PIN_D2 //device 3
+.................... #define relay4     PIN_D3 //device 4
+.................... #define mi1        PIN_E0 //l298n
+.................... #define mi2        PIN_E1 //l298n
+.................... #define rainmodule PIN_C0 //Positive low
+.................... #define ht1        PIN_D6 //LOW if the skylight is fully open
+.................... #define ht2        PIN_D7 //LOW if the skylight is fully close
+.................... int relay1_state;
+.................... void control_button(){
+....................    if (input(btn0)==0) 
+0018:  BSF    03.5
+0019:  BSF    06.0
+001A:  BCF    03.5
+001B:  BTFSC  06.0
+001C:  GOTO   033
+....................    {
+....................       delay_ms(50);
+001D:  MOVLW  32
+001E:  MOVWF  22
+001F:  CALL   004
+....................       output_toggle(relay1);
+0020:  BSF    03.5
+0021:  BCF    08.0
+0022:  MOVLW  01
+0023:  BCF    03.5
+0024:  XORWF  08,F
+....................       relay1_state = input(relay1);
+0025:  BSF    03.5
+0026:  BSF    08.0
+0027:  BCF    03.5
+0028:  CLRF   20
+0029:  BTFSC  08.0
+002A:  INCF   20,F
+....................       while(input(btn0)==0);
+002B:  BSF    03.5
+002C:  BSF    06.0
+002D:  BCF    03.5
+002E:  BTFSS  06.0
+002F:  GOTO   02B
+....................       delay_ms(50);
+0030:  MOVLW  32
+0031:  MOVWF  22
+0032:  CALL   004
+....................    }
+....................    if (input(btn1)==0) 
+0033:  BSF    03.5
+0034:  BSF    06.1
+0035:  BCF    03.5
+0036:  BTFSC  06.1
+0037:  GOTO   048
+....................    {
+....................       delay_ms(50);
+0038:  MOVLW  32
+0039:  MOVWF  22
+003A:  CALL   004
+....................       output_toggle(relay2);
+003B:  BSF    03.5
+003C:  BCF    08.1
+003D:  MOVLW  02
+003E:  BCF    03.5
+003F:  XORWF  08,F
+....................       while(input(btn1)==0);
+0040:  BSF    03.5
+0041:  BSF    06.1
+0042:  BCF    03.5
+0043:  BTFSS  06.1
+0044:  GOTO   040
+....................       delay_ms(50);
+0045:  MOVLW  32
+0046:  MOVWF  22
+0047:  CALL   004
+....................    }
+....................    if (input(btn2)==0) 
+0048:  BSF    03.5
+0049:  BSF    06.2
+004A:  BCF    03.5
+004B:  BTFSC  06.2
+004C:  GOTO   05D
+....................    {
+....................       delay_ms(50);
+004D:  MOVLW  32
+004E:  MOVWF  22
+004F:  CALL   004
+....................       output_toggle(relay3);
+0050:  BSF    03.5
+0051:  BCF    08.2
+0052:  MOVLW  04
+0053:  BCF    03.5
+0054:  XORWF  08,F
+....................       while(input(btn2)==0);
+0055:  BSF    03.5
+0056:  BSF    06.2
+0057:  BCF    03.5
+0058:  BTFSS  06.2
+0059:  GOTO   055
+....................       delay_ms(50);
+005A:  MOVLW  32
+005B:  MOVWF  22
+005C:  CALL   004
+....................    }
+....................    if (input(btn3)==0) 
+005D:  BSF    03.5
+005E:  BSF    06.3
+005F:  BCF    03.5
+0060:  BTFSC  06.3
+0061:  GOTO   072
+....................    {
+....................       delay_ms(50);
+0062:  MOVLW  32
+0063:  MOVWF  22
+0064:  CALL   004
+....................       output_toggle(relay4);
+0065:  BSF    03.5
+0066:  BCF    08.3
+0067:  MOVLW  08
+0068:  BCF    03.5
+0069:  XORWF  08,F
+....................       while(input(btn3)==0);
+006A:  BSF    03.5
+006B:  BSF    06.3
+006C:  BCF    03.5
+006D:  BTFSS  06.3
+006E:  GOTO   06A
+....................       delay_ms(50);
+006F:  MOVLW  32
+0070:  MOVWF  22
+0071:  CALL   004
+....................    }
+0072:  BCF    0A.3
+0073:  BCF    0A.4
+0074:  GOTO   114 (RETURN)
+.................... }
+.................... void control_skylight(){
+....................    if((input(rainmodule)==0)&&(input(ht2)!=0)){
+0075:  BSF    21.0
+0076:  MOVF   21,W
+0077:  BSF    03.5
+0078:  MOVWF  07
+0079:  BCF    03.5
+007A:  BTFSC  07.0
+007B:  GOTO   08A
+007C:  BSF    03.5
+007D:  BSF    08.7
+007E:  BCF    03.5
+007F:  BTFSS  08.7
+0080:  GOTO   08A
+....................       output_high(mi1);
+0081:  BSF    03.5
+0082:  BCF    09.0
+0083:  BCF    03.5
+0084:  BSF    09.0
+....................       output_low(mi2);
+0085:  BSF    03.5
+0086:  BCF    09.1
+0087:  BCF    03.5
+0088:  BCF    09.1
+....................    }
+0089:  GOTO   0C6
+....................    else if((input(rainmodule)!=0)&&(input(ht2)!=0)&&(input(btn5)==0)){
+008A:  BSF    21.0
+008B:  MOVF   21,W
+008C:  BSF    03.5
+008D:  MOVWF  07
+008E:  BCF    03.5
+008F:  BTFSS  07.0
+0090:  GOTO   0A4
+0091:  BSF    03.5
+0092:  BSF    08.7
+0093:  BCF    03.5
+0094:  BTFSS  08.7
+0095:  GOTO   0A4
+0096:  BSF    03.5
+0097:  BSF    06.5
+0098:  BCF    03.5
+0099:  BTFSC  06.5
+009A:  GOTO   0A4
+....................       output_high(mi1);
+009B:  BSF    03.5
+009C:  BCF    09.0
+009D:  BCF    03.5
+009E:  BSF    09.0
+....................       output_low(mi2);
+009F:  BSF    03.5
+00A0:  BCF    09.1
+00A1:  BCF    03.5
+00A2:  BCF    09.1
+....................    }
+00A3:  GOTO   0C6
+....................    else if((input(rainmodule)!=0)&&(input(ht1)!=0)&&(input(btn4)==0)){
+00A4:  BSF    21.0
+00A5:  MOVF   21,W
+00A6:  BSF    03.5
+00A7:  MOVWF  07
+00A8:  BCF    03.5
+00A9:  BTFSS  07.0
+00AA:  GOTO   0BE
+00AB:  BSF    03.5
+00AC:  BSF    08.6
+00AD:  BCF    03.5
+00AE:  BTFSS  08.6
+00AF:  GOTO   0BE
+00B0:  BSF    03.5
+00B1:  BSF    06.4
+00B2:  BCF    03.5
+00B3:  BTFSC  06.4
+00B4:  GOTO   0BE
+....................       output_high(mi1);
+00B5:  BSF    03.5
+00B6:  BCF    09.0
+00B7:  BCF    03.5
+00B8:  BSF    09.0
+....................       output_low(mi2);
+00B9:  BSF    03.5
+00BA:  BCF    09.1
+00BB:  BCF    03.5
+00BC:  BCF    09.1
+....................    }
+00BD:  GOTO   0C6
+....................    else{
+....................       output_low(mi1);
+00BE:  BSF    03.5
+00BF:  BCF    09.0
+00C0:  BCF    03.5
+00C1:  BCF    09.0
+....................       output_low(mi2);
+00C2:  BSF    03.5
+00C3:  BCF    09.1
+00C4:  BCF    03.5
+00C5:  BCF    09.1
+....................    }
+00C6:  BCF    0A.3
+00C7:  BCF    0A.4
+00C8:  GOTO   115 (RETURN)
+.................... }
+.................... void main()
+00C9:  MOVF   03,W
+00CA:  ANDLW  1F
+00CB:  MOVWF  03
+00CC:  MOVLW  71
+00CD:  BSF    03.5
+00CE:  MOVWF  0F
+00CF:  CLRF   10
+00D0:  MOVF   0F,W
+00D1:  BSF    03.6
+00D2:  BCF    07.3
+00D3:  MOVLW  0C
+00D4:  BCF    03.6
+00D5:  MOVWF  19
+00D6:  MOVLW  A2
+00D7:  MOVWF  18
+00D8:  MOVLW  90
+00D9:  BCF    03.5
+00DA:  MOVWF  18
+00DB:  MOVLW  FF
+00DC:  MOVWF  21
+00DD:  BSF    03.5
+00DE:  BSF    03.6
+00DF:  MOVF   09,W
+00E0:  ANDLW  C0
+00E1:  MOVWF  09
+00E2:  BCF    03.6
+00E3:  BCF    1F.4
+00E4:  BCF    1F.5
+00E5:  MOVLW  00
+00E6:  BSF    03.6
+00E7:  MOVWF  08
+00E8:  BCF    03.5
+00E9:  CLRF   07
+00EA:  CLRF   08
+00EB:  CLRF   09
+00EC:  BCF    03.7
+.................... {
+....................    set_tris_b(0b11111111);
+00ED:  MOVLW  FF
+00EE:  BSF    03.5
+00EF:  BCF    03.6
+00F0:  MOVWF  06
+....................    set_tris_c(0b1);
+00F1:  MOVLW  01
+00F2:  MOVWF  07
+00F3:  BCF    03.5
+00F4:  MOVWF  21
+....................    set_tris_d(0b10011111);
+00F5:  MOVLW  9F
+00F6:  BSF    03.5
+00F7:  MOVWF  08
+....................    set_tris_e(0b001);
+00F8:  BSF    09.0
+00F9:  BCF    09.1
+00FA:  BCF    09.2
+00FB:  BCF    09.3
+....................    
+....................    output_low(relay1);
+00FC:  BCF    08.0
+00FD:  BCF    03.5
+00FE:  BCF    08.0
+....................    output_low(relay2);
+00FF:  BSF    03.5
+0100:  BCF    08.1
+0101:  BCF    03.5
+0102:  BCF    08.1
+....................    output_low(relay3);
+0103:  BSF    03.5
+0104:  BCF    08.2
+0105:  BCF    03.5
+0106:  BCF    08.2
+....................    output_low(relay4);
+0107:  BSF    03.5
+0108:  BCF    08.3
+0109:  BCF    03.5
+010A:  BCF    08.3
+....................    output_low(mi1);
+010B:  BSF    03.5
+010C:  BCF    09.0
+010D:  BCF    03.5
+010E:  BCF    09.0
+....................    output_low(mi2);
+010F:  BSF    03.5
+0110:  BCF    09.1
+0111:  BCF    03.5
+0112:  BCF    09.1
+....................    while(TRUE)
+....................    {
+....................       control_button();
+0113:  GOTO   018
+....................       control_skylight();
+0114:  GOTO   075
+0115:  GOTO   113
+....................       
+....................    }
+.................... }
+.................... 
+0116:  SLEEP
+.................... 
+.................... 
+.................... 
+
+Configuration Fuses:
+   Word  1: 2FE4   INTRC_IO NOWDT PUT MCLR NOPROTECT NOCPD BROWNOUT IESO FCMEN NOLVP NODEBUG
+   Word  2: 3FFF   BORV40 NOWRT

@@ -1,0 +1,60 @@
+#include<16F887.h>
+#fuses INTRC_IO
+#use delay(CLOCK=8MHz)
+
+#define btn1     PIN_B0
+#define btn2     PIN_B1
+#define btn3     PIN_B2
+#define btn4     PIN_B3
+#define btnopen     PIN_B4
+#define btnclose     PIN_B5
+#define relay1     PIN_D0
+#define relay2     PIN_D1
+#define relay3     PIN_D2
+#define relay4     PIN_D3
+void main()
+{
+   set_tris_b(0b00111111);
+   set_tris_d(0b00001111);
+   output_low(relay1);
+   output_low(relay2);
+   output_low(relay3);
+   output_low(relay4);
+   while(TRUE)
+   {
+      control_button;
+   }
+}
+void control_button{
+   if (input(btn1)==0) 
+   {
+      delay_ms(50);
+      output_toggle(relay1);
+      while(input(btn1)==0);
+      delay_ms(50);
+   }
+   if (input(btn2)==0) 
+   {
+      delay_ms(50);
+      output_toggle(relay2);
+      while(input(btn2)==0);
+      delay_ms(50);
+   }
+   if (input(btn3)==0) 
+   {
+      delay_ms(50);
+      output_toggle(relay3);
+      while(input(btn3)==0);
+      delay_ms(50);
+   }
+   if (input(btn4)==0) 
+   {
+      delay_ms(50);
+      output_toggle(relay4);
+      while(input(btn4)==0);
+      delay_ms(50);
+   }
+}
+
+
+

@@ -1,0 +1,65 @@
+[PROJECT]
+Target=PIC16F887.hex
+Processor_Text=PIC16F887
+CCSVersion=5.101
+Compiler=PCM
+[Target Data]
+FileList=PIC16F887.c
+[PIC16F887.c]
+Type=4
+[mru-list]
+1=PIC16F887.c
+
+[defines]
+buildcount=45
+
+[Opened Files]
+1=PIC16F887.c
+t1=53
+Count=1
+2=test.c
+t2=18
+
+[ProjectLog]
+Days=2
+D1=03-05-2023
+D1_L=19
+D1_L1=[49073]Stopped Editing.
+TotalEdit=42
+TotalDebug=0
+D1_E=34
+D1_D=0
+D1_L2=[49133]Started Editing.
+D1_L3=[50677]Stopped Editing.
+D1_L4=[50964]Started Editing.
+D1_L5=[51523]Stopped Editing.
+D1_L6=[51534]Project Closed.
+D1_L7=[51560]Project Opened.
+D1_L8=[51706]Started Editing.
+D1_L9=[52121]Stopped Editing.
+D1_L10=[52124]Project Closed.
+D1_L11=[52157]Project Opened.
+D1_L12=[52171]Started Editing.
+D1_L13=[53339]Stopped Editing.
+D1_L14=[57743]Started Editing.
+D1_L15=[58058]Stopped Editing.
+D1_L16=[58891]Started Editing.
+D1_L17=[59207]Stopped Editing.
+D1_L18=[59584]Started Editing.
+D1_L19=[60900]Project Closed.
+D2=24-05-2023
+D2_L=6
+D2_L1=[45560]Project Opened.
+D2_L2=[45647]Started Editing.
+D2_L3=[45968]Stopped Editing.
+D2_E=8
+D2_D=0
+D2_L4=[46388]Started Editing.
+D2_L5=[46474]Stopped Editing.
+D2_L6=[46474]Project Closed.
+
+[fileformats]
+forcecoff=0
+[Units]
+Count=1
+1=PIC16F887 (main)

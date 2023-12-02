@@ -1,0 +1,99 @@
+#include <16F887.h>
+#device ADC=10
+#fuses INTRC_IO
+#use delay(CLOCK=8MHz)
+#use RS232(BAUD=9600,BITS=8,STOP=1,PARITY=N,xmit=PIN_C6,rcv=PIN_C7)
+#define bt1       PIN_B0 // Positive low
+#define bt2       PIN_B1// Positive low
+#define bt3       PIN_B2 // Positive low
+#define bt4       PIN_B3 // Positive low
+#define bt_open   PIN_B4 //opening skylight
+#define bt_close  PIN_B5 //closing skylight
+#define relay1    PIN_D0 //device 1
+#define relay2    PIN_D1 //device 2
+#define relay3    PIN_D2 //device 3
+#define relay4    PIN_D3 //device 4
+#define m_in1     PIN_E1 //l298n
+#define m_in2     PIN_E2 //l298n
+#define rainmodule PIN_E0 //Positive low
+#define ht1       PIN_D5 //LOW if the skylight is fully open
+#define ht2       PIN_D6 //LOW if the skylight is fully close
+
+void control_button(){
+   if (input(bt1)==0) 
+   {
+      delay_ms(50);
+      output_toggle(relay1);
+      int relay1_state = input(relay1);
+      while(input(bt1)==0);
+      delay_ms(50);
+      
+      if(relay1_state==1){
+         printf("RELAY 1 ON\r\n");
+      }
+      if(relay1_state==0){
+         printf("RELAY 1 OFF\r\n");
+      }
+   }
+   if (input(bt2)==0) 
+   {
+      delay_ms(50);
+      output_toggle(relay2);
+      while(input(bt2)==0);
+      delay_ms(50);
+   }
+   if (input(bt3)==0) 
+   {
+      delay_ms(50);
+      output_toggle(relay3);
+      while(input(bt3)==0);
+      delay_ms(50);
+   }
+   if (input(bt4)==0) 
+   {
+      delay_ms(50);
+      output_toggle(relay4);
+      while(input(bt4)==0);
+      delay_ms(50);
+   }
+}
+void control_skylight(){
+   if((input(rainmodule)==0)&&(input(ht2)!=0)){
+      output_high(m_in1);
+      output_low(m_in2);
+   }
+   else if((input(rainmodule)!=0)&&(input(ht2)!=0)&&(input(bt_close)==0)){
+      output_high(m_in1);
+      output_low(m_in2);
+   }
+   else if((input(rainmodule)!=0)&&(input(ht1)!=0)&&(input(bt_open)==0)){
+      output_high(m_in1);
+      output_low(m_in2);
+   }
+   else{
+      output_low(m_in1);
+      output_low(m_in2);
+   }
+}
+void main()
+{
+   set_tris_b(0b11111111);
+   set_tris_d(0b10011111);
+   set_tris_e(0b001);
+   output_low(relay1);
+   output_low(relay2);
+   output_low(relay3);
+   output_low(relay4);
+   output_low(m_in1);
+   output_low(m_in2);
+   while(TRUE)
+   {
+      control_button();
+      control_skylight();
+      
+   }
+}
+
+
+
+

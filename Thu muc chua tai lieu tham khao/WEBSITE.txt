@@ -1,0 +1,15 @@
+[1]	http://kdientu.duytan.edu.vn/media/49669/tt003-dieu-khien-thiet-bi-qua-sms.pdf
+[2]	https://datasheet-pdf.com/PDF/SIM800L-Datasheet-SIMCom-989664
+[3]	https://components101.com/modules/l293n-motor-driver-module
+[4]	https://www.alibaba.com/product-detail/4-Relay-Module-4-Channel-Relay_62059284116.html?spm=a2700.7735675.0.0.7f79dLO7dLO7Ua&s=p
+[5]	https://datasheetspdf.com/pdf/1424873/CYStech/LM2596/1
+[6]	https://www.iostream.vn/article/thong-so-ky-thuat-arduino-uno-r-3-cac-bien-the-va-luu-y-gnlmL
+[7]	https://huynhnhattung.com/sim800l-giao-tiep-arduino-nhan-tin-goi-dien-sim800l-relay-arduino/
+[8]	https://lastminuteengineers.com/sim800l-gsm-module-arduino-tutorial/
+[9]	https://github.com/ahmadlogs/arduino-ide-examples/blob/main/sim800l-registered-phone/sim800l-registered-phone.ino
+[10]	https://nshopvn.com/product/cam-bien-mua/
+link youtube:https://youtu.be/GuN0BVo3Gyc 
+
+
+
+

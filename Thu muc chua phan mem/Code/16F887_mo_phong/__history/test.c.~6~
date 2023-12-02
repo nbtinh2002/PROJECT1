@@ -1,0 +1,52 @@
+#include <16F887.h>
+#device adc=10
+#FUSES NOWDT                    //No Watch Dog Timer
+#FUSES XT                       //Crystal osc <= 4mhz
+#FUSES NOPROTECT                //Code not protected from reading
+#FUSES NOBROWNOUT               //No brownout reset
+#FUSES NOLVP                    //No low voltage prgming, B3(PIC16) or B5(PIC18) used for I/O
+
+#use delay(clock=4000000)
+
+// Khai báo các chân k?t n?i v?i nút nh?n và relay
+#define BTN_PIN PIN_B0
+#define RELAY_PIN PIN_D0
+
+void main()
+{
+   set_tris_b(0b11111111);
+   set_tris_d(0b10011111);
+   set_tris_e(0b001);
+   output_low(RELAY_PIN);
+
+   // Bi?n luu tr?ng thái c?a relay
+   int relay_state = 0;
+   
+   while (true)
+   {
+      // Ki?m tra nút nh?n
+      if (input(BTN_PIN) == 0)
+      {
+         // Ch? vài lát d? d?m b?o d?c giá tr? chính xác
+         delay_ms(50);
+         
+         // Thay d?i tr?ng thái c?a relay
+         output_toggle(RELAY_PIN);
+         relay_state = input(RELAY_PIN);
+         
+         // In ra tr?ng thái c?a relay
+         if (relay_state == 1)
+         {
+            printf("Relay is ON\r\n");
+         }
+         else
+         {
+            printf("Relay is OFF\r\n");
+         }
+         
+         // Ch? d?n khi nút nh?n du?c th? ra
+         while (input(BTN_PIN) == 0);
+         delay_ms(50);
+      }
+   }
+}
